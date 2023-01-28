@@ -1,0 +1,41 @@
+{
+  "name": "@nimbox/log4js-loki",
+  "version": "1.0.0",
+  "description": "A simple log4js appender for grafana loki",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "author": "Ricardo Marimon",
+  "license": "ISC",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "ts-jest --runInBand --watchAll"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@nimbox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nimbox/log4js-loki.git"
+  },
+  "homepage": "https://github.com/nimbox/log4js-loki#readme",
+  "bugs": {
+    "url": "https://github.com/nimbox/log4js-loki/issues"
+  },
+  "dependencies": {
+    "axios": "^1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.11.18",
+    "dotenv": "^16.0.3",
+    "jest": "^29.4.1",
+    "log4js": "^6.7.1",
+    "rollup": "^3.12.0",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}
