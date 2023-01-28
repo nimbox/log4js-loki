@@ -1,6 +1,6 @@
 {
   "name": "@nimbox/log4js-loki",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple log4js appender for grafana loki",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
