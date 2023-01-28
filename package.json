@@ -12,7 +12,7 @@
     "test": "jest --runInBand --detectOpenHandles",
     "test:watch": "ts-jest --runInBand --watchAll",
     "preversion": "npm ci && npm run build",
-    "postversion": "git push origin master --follow-tags && npm publish"
+    "postversion": "git push origin main --follow-tags && npm publish"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@nimbox"
