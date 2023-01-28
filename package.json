@@ -10,7 +10,9 @@
   "scripts": {
     "build": "rollup -c",
     "test": "jest --runInBand --detectOpenHandles",
-    "test:watch": "ts-jest --runInBand --watchAll"
+    "test:watch": "ts-jest --runInBand --watchAll",
+    "preversion": "npm ci && npm run build",
+    "postversion": "git push origin master --follow-tags && npm publish"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@nimbox"
