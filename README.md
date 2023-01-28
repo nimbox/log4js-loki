@@ -42,6 +42,8 @@ LOG4JS_LOKI_USERNAME=<username>
 LOG4JS_LOKI_PASSWORD=<password>
 ```
 
+If no url is provided, the appender will default to not sending logs.
+
 ## Configuration
 
 The configuration function `configuration()` retrieves the following

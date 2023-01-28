@@ -64,6 +64,8 @@ function create(config: any, layout: LayoutFunction): AppenderFunction {
 
     // State
 
+    const enabled = configuration.url !== '';
+
     const pendingPromises: Promise<AxiosResponse<any, any>>[] = [];
     const controller = new AbortController();
 
@@ -152,17 +154,21 @@ function create(config: any, layout: LayoutFunction): AppenderFunction {
      */
     const appender = (event: LoggingEvent) => {
 
-        clearTimeout(timeout);
-        streams.push(message(event));
+        if (enabled) {
 
-        if (configuration.batch) {
-            if (streams.length >= configuration.batchSize || process.hrtime(time)[0] >= configuration.batchTimeout) {
-                postStreams();
+            clearTimeout(timeout);
+            streams.push(message(event));
+
+            if (configuration.batch) {
+                if (streams.length >= configuration.batchSize || process.hrtime(time)[0] >= configuration.batchTimeout) {
+                    postStreams();
+                } else {
+                    timeout = setTimeout(postStreams, configuration.batchTimeout);
+                }
             } else {
-                timeout = setTimeout(postStreams, configuration.batchTimeout);
+                postStreams();
             }
-        } else {
-            postStreams();
+
         }
 
     };

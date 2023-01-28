@@ -21,11 +21,7 @@ export default {
     ],
 
     plugins: [
-        typescript({
-            exclude: [
-                "src/send.ts"
-            ]
-        })
+        typescript()
     ]
 
 };
