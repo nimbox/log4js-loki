@@ -56,15 +56,16 @@ export const configuration = () => {
 
     return ({
 
-        url: process.env['LOG4JS_LOKI_URL']!,
-        username: process.env['LOG4JS_LOKI_USERNAME']!,
-        password: process.env['LOG4JS_LOKI_PASSWORD']!,
+        url: process.env['LOG4JS_LOKI_URL'] || null,
+        token: process.env['LOG4JS_LOKI_TOKEN'] || null,
+        username: process.env['LOG4JS_LOKI_USERNAME'] || null,
+        password: process.env['LOG4JS_LOKI_PASSWORD'] || null,
 
         labels: parseKeyValueString(process.env['LOG4JS_LOKI_LABELS'] || ''),
 
         batch: process.env['LOG4JS_LOKI_BATCH'] != null ? process.env['LOG4JS_LOKI_BATCH'] === 'true' : true,
-        batchSize: process.env['LOG4JS_LOKI_BATCH_SIZE'] != null ? parseInt(process.env['LOG4JS_LOKI_BATCH_SIZE']) : 10,
-        batchTimeout: process.env['LOG4JS_LOKI_BATCH_TIMEOUT'] != null ? parseInt(process.env['LOG4JS_LOKI_BATCH_TIMEOUT']) : 2000,
+        batchSize: process.env['LOG4JS_LOKI_BATCH_SIZE'] != null ? parseInt(process.env['LOG4JS_LOKI_BATCH_SIZE']) : null,
+        batchTimeout: process.env['LOG4JS_LOKI_BATCH_TIMEOUT'] != null ? parseInt(process.env['LOG4JS_LOKI_BATCH_TIMEOUT']) : null
 
     });
 

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, CreateAxiosDefaults } from 'axios';
 import { AppenderFunction, AppenderModule, LayoutFunction, LoggingEvent } from 'log4js';
 
 
@@ -11,23 +11,14 @@ import { AppenderFunction, AppenderModule, LayoutFunction, LoggingEvent } from '
  */
 function parse(config: any) {
 
-    let url = config?.url;
-    let username = config?.username;
-    let password = config?.password;
+    let url = config.url;
+    let token = config.token;
+    let username = config.username;
+    let password = config.password;
 
     if (!url) {
-        url = 'http://localhost';
-        console.error('The url is not configured for the loki appender.');
-    }
-
-    if (!username) {
-        let username = '';
-        console.error('The username is not configured for the loki appender.');
-    }
-
-    if (!password) {
-        let password = '';
-        console.error('The password is not configured for the loki appender.');
+        url = null;
+        console.error('The url is not configured for the loki appender. No logs will be sent.');
     }
 
     return {
@@ -35,6 +26,7 @@ function parse(config: any) {
         url,
         username,
         password,
+        token,
 
         labels: config?.labels || {},
 
@@ -64,7 +56,7 @@ function create(config: any, layout: LayoutFunction): AppenderFunction {
 
     // State
 
-    const enabled = configuration.url !== '';
+    const enabled = configuration != null && configuration.url !== '';
 
     const pendingPromises: Promise<AxiosResponse<any, any>>[] = [];
     const controller = new AbortController();
@@ -75,17 +67,29 @@ function create(config: any, layout: LayoutFunction): AppenderFunction {
 
     // Methods
 
-    /** 
+    /**
+     * Create the axios instance with the correct authentication.
+     */
+    const authentication: CreateAxiosDefaults = {};
+    if (configuration.token) {
+        authentication.headers = {
+            'Authorization': `Bearer ${configuration.token}`
+        };
+    } else if (configuration.username && configuration.password) {
+        authentication.auth = {
+            username: configuration.username,
+            password: configuration.password
+        };
+    }
+
+    /**
      * Instantiate the axios instance with basic authorization. And a
      * 2000 milli second timeout. If the timeout is reached, the logs
      * are discarded an no attempt is done to retransmit them.
      */
     const instance = axios.create({
         baseURL: config.url,
-        auth: {
-            username: config.username,
-            password: config.password
-        },
+        ...authentication,
         timeout: 2000
     });
 

@@ -36,13 +36,24 @@ log4js.configure({
 
 3. Set environment variables for connecting to your Loki instance.
 
+For bearer token authentication, set the following environment variables:
+
+```env
+LOG4JS_LOKI_URL=http://loki:3100
+LOG4JS_LOKI_TOKEN=<token>
+```
+
+For basic authentication, set the following environment variables:
+
 ```env
 LOG4JS_LOKI_URL=http://loki:3100
 LOG4JS_LOKI_USERNAME=<username>
 LOG4JS_LOKI_PASSWORD=<password>
 ```
 
-If no url is provided, the appender will default to not sending logs.
+If no url is provided, the appender will default to not sending logs. If both
+the `<username>,<password>` combination and `<token>` are present, the bearer
+token authentication will be used.
 
 ## Configuration
 
@@ -50,8 +61,9 @@ The configuration function `configuration()` retrieves the following
 configuration options from environment variables:
 
 * **`LOG4JS_LOKI_URL`** (required): The URL of your Loki instance.
-* **`LOG4JS_LOKI_USERNAME`** (required): The username for basic auth.
-* **`LOG4JS_LOKI_PASSWORD`** (required): The password for basic auth.
+* **`LOG4JS_LOKI_TOKEN`** (optional): The token for bearer auth.
+* **`LOG4JS_LOKI_USERNAME`** (optional): The username for basic auth.
+* **`LOG4JS_LOKI_PASSWORD`** (optional): The password for basic auth.
 * **`LOG4JS_LOKI_LABELS`** (optional): A comma-separated string of
   key-value pairs to add as labels to your logs.
 * **`LOG4JS_LOKI_BATCH`** (optional, default: `true`): Whether to
